@@ -27,7 +27,7 @@ class ChatBar extends Component {
     if (e.key == 'Enter') {
 
       const data = {
-        username: this.state.username_old,
+        username: this.state.username_old, // this state value does not exist. did you mean this.state.username?
         msg: e.target.value
       }
 

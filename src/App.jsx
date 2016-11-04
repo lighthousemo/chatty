@@ -16,7 +16,8 @@ class App extends Component {
       },
       messages: [],
       usersOnline: '...',
-      styleName: "..."
+      styleName: "..."  // Is this always storing the color? 
+                        // If yes, consider renaming the property to 'color'
     };
 
     // Global
@@ -42,7 +43,7 @@ class App extends Component {
     this.socket.send(JSON.stringify(newMessage));
   }
 
-  getMessageColor() {
+  getMessageColor() {  // Is this function still being used?
     console.log('#FF0000');
   }
 
@@ -50,13 +51,15 @@ class App extends Component {
   // Show notification
 
   postNotification(data) {
-    const new_username = data.username;
+    const new_username = data.username; // small style suggestion: rename new_username to newUsername to keep the naming consisten
 
-    if(this.state.currentUser.name !== new_username){
+    if(this.state.currentUser.name !== new_username){ // nice check here.
       const newNotification = {
         type: 'postNotification',
         content: `**${this.state.currentUser.name}** changed their name to **${new_username}**`
-      }
+      } // architecture question: Should the content be determined on the client (React) or on the server?
+        // What makes more sense conceptually?
+        // In the case of the color, you decided to have the server determine the color.
 
       this.setState({currentUser: { name: new_username}})
       this.socket.send(JSON.stringify(newNotification));
@@ -80,7 +83,7 @@ class App extends Component {
       console.log(data);
 
       switch(data.type) {
-        case 'incomingNotification':
+        case 'incomingNotification': // Nice use of case statement here :)
         case 'incomingMessage':
           const messages = this.state.messages.concat(data);
           this.setState({messages: messages});
@@ -109,7 +112,11 @@ class App extends Component {
       <div>
         <Nav usersOnline={this.state.usersOnline}/>
         <MessageList messages={this.state.messages}></MessageList>
-        <ChatBar sendMessage={this.sendMessage} postNotification={this.postNotification} currentUser={this.state.currentUser}> </ChatBar>
+        <ChatBar
+          sendMessage={this.sendMessage}
+          postNotification={this.postNotification}
+          currentUser={this.state.currentUser}
+        > </ChatBar> <!-- style suggestion: move attributes on new line. it's more readable -->
 
       </div>
     );
